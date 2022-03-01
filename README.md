@@ -6,10 +6,13 @@ This is the first "smoking/burning" release...
 <table>
     <tr>
       <td>
-        <img src="doc/pet_joystick_fake3D.png" width="350px">
+        <img src="doc/LightBeacon.png" width="350px">
       </td>
       <td>
-        <img src="doc/pet_saftblandare.mp4" width="350px">
+        <img src="https://user-images.githubusercontent.com/49879749/156254687-591ab6c0-a413-49ae-9e35-8ce395d5ccf8.mp4" width="400px">
       </td>
     </tr>
   </table>
+
+
+
