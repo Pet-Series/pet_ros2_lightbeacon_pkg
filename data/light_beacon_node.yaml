@@ -1,0 +1,6 @@
+/light_beacon_node:
+  ros__parameters:
+    beacon_topic: beacon_mode
+    gpio_pin_power: 23
+    gpio_pin_signal: 24
+    use_sim_time: false

@@ -11,7 +11,7 @@
 ##     2) "RotatingSlow"
 ##     3) "Flashing"
 ##     4) "Strobing"
-##     5) "BeaconOff"
+##     5) "LEDoff"
 ##     6)  GOTO 1
 ##
 ## Behaviour: ## 1) Once: Read/Set all the parameters 
@@ -38,12 +38,13 @@
 ## 1) ros2 run pet_ros2_lightbeacon_pkg pet_lightbeacon_node 
 ## 2) ...se examples of manually injecting topics to beacon node
 ##
-## Test01: Manually update row3. Publish only topic onence "-1"
-## $  ros2 topic pub /beacon_mode std_msgs/msg/String "data: RotatingFast" -1
-## $  ros2 topic pub /beacon_mode std_msgs/msg/String "data: RotatingSlow" -1
-## $  ros2 topic pub /beacon_mode std_msgs/msg/String "data: Flashing" -1
-## $  ros2 topic pub /beacon_mode std_msgs/msg/String "data: Strobing" -1
-## $  ros2 topic pub /beacon_mode std_msgs/msg/String "data: BeaconOff" -1
+## Test: Set beacon-mode from a terminal/commandline. Publish only topic onence "-1"
+## $ ros2 topic pub /beacon_mode std_msgs/msg/String "data: RotatingFast" -1
+## $ ros2 topic pub /beacon_mode std_msgs/msg/String "data: RotatingSlow" -1
+## $ ros2 topic pub /beacon_mode std_msgs/msg/String "data: Flashing" -1
+## $ ros2 topic pub /beacon_mode std_msgs/msg/String "data: Strobing" -1
+## $ ros2 topic pub /beacon_mode std_msgs/msg/String "data: LEDoff" -1
+## $ ros2 topic pub /beacon_mode std_msgs/msg/String "data: Reset" -1
 ##
 
 #  Include the ROS2 stuff...
@@ -67,7 +68,7 @@ class LightBeaconNode(Node):
         super().__init__("light_beacon_node")
 
         self.beacon_current_mode = "RotatingFast"
-        self.beacon_new_mode = "BeaconOff"
+        self.beacon_new_mode = "LEDoff"
 
         # Set default pin for ligh_beacon +3.3V-power. Accessed via ROS Parameters...
         self.declare_parameter( 'gpio_pin_power', 23, ParameterDescriptor(description='GPIO-pin for ligh_beacon +3.3V-power [default <23>]') )
@@ -121,9 +122,6 @@ class LightBeaconNode(Node):
         self.beacon_current_mode = self.beacon_new_mode
 
     def light_beacon_toogle(self):
-        self.get_logger().info("-------light_beacon_toogle( current, new):-------" )
-        self.get_logger().info("| Current:'" + self.beacon_current_mode + "'" )
-        self.get_logger().info("| New:    '" + self.beacon_new_mode     + "'")
 
         if  ( self.beacon_new_mode == "RotatingFast"):
             new = 1
@@ -133,8 +131,16 @@ class LightBeaconNode(Node):
             new = 3
         elif self.beacon_new_mode ==  "Strobing":
             new = 4
-        elif self.beacon_new_mode ==  "BeaconOff":
+        elif self.beacon_new_mode ==  "LEDoff":
             new = 5
+        elif self.beacon_new_mode ==  "Reset":
+            new = 5
+            self.beacon_current_mode =  "LEDoff"
+            self.led.off()
+            sleep(0.1)  
+            self.led.on()
+            sleep(0.2) 
+
         else:
             new = 0
             self.get_logger().warning("| Input ERROR in Light Beacon node |")
@@ -147,7 +153,7 @@ class LightBeaconNode(Node):
             current = 3
         elif (self.beacon_current_mode ==  "Strobing"    ):
             current = 4
-        elif (self.beacon_current_mode ==  "BeaconOff"   ):
+        elif (self.beacon_current_mode ==  "LEDoff"   ):
             current = 5
         else:
             current = 0
