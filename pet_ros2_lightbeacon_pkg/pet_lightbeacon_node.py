@@ -178,11 +178,14 @@ class LightBeaconNode(Node):
         self.beacon_signal.max()
         sleep(0.1)
         self.beacon_signal.min()
+        #self.beacon_signal.stop()
 
 def main(args=None):
     rclpy.init(args=args)
     node = LightBeaconNode()
-
+    
+    #The try/except statement is used to detect errors in the try block.
+    #the except statement catches the exception information and processes it.
     try:
         rclpy.spin(node)
 
@@ -197,8 +200,10 @@ def main(args=None):
         # - Destroy the node explicitly
         #   (optional - otherwise it will be done automatically
         #   when the garbage collector destroys the node object)
+        # ??? self.beacon_signal.stop()
         node.destroy_node()
         rclpy.shutdown()
+        GPIO.cleanup()
 
 if __name__ == "__main__":
     main()
