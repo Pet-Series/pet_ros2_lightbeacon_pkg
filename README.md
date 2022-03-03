@@ -17,6 +17,7 @@ This is the first "smoking/burning" release...
 ```mermaid
 flowchart LR
     A(Power Up)-->|On| B(1.Rotating Fast)
+    R(6.Reset)   -->|Off/On|B(1.Rotating Fast)
     B --> |cycle pwm|C(2.Rotating Slow)
     C --> |cycle pwm|D(3.Flashing)
     D --> |cycle pwm|E(4.Strobing)
