@@ -30,6 +30,15 @@ flowchart LR
 1. Once: Read/Set ROS2 Parameters for the module
 1. Repeatedly: Subscripe on topic 
 1. Repeatedly: Send needed number of PWM-cycles to toggle the Light Beacon to the requested Light-mode.
+```mermaid
+graph TD
+    S(Start) --> A
+    A(Read Parameters) -->|default values| B
+    B(far:fa-lightbulb Power up beacon) --> C
+    C(Wait for & Interpret Input) --> |No. cycles| D
+    D(Perform PWM-cycles) --> C
+    E(ROS2 topic input) --> C
+```
 
 ## Prerequisite: Software
 * Ubuntu 20.04 (64bit) or newer
@@ -43,12 +52,10 @@ flowchart LR
  $ sudo apt-get install python3-rpi.gpio
  $ sudo pip3 install gpiozero
 ```
-<ul><blockquote>🚨TODO: When Ubuntu 22.04 LTS arrives. Update to newer lgpio <br>
-</blockquote></ul>
 
 ## Prerequisite: Hardware
-* Single Board Computer(SBC): Raspberry Pi 2/3/4
-* RC Light Beacon - 3-wire (Same kind of connector/signal that trad. RC-servo uses)
+* Single Board Computer(SBC): Raspberry Pi 3/4
+* Light Beacon - 3-wire (Same kind of connector/signal that trad. RC-servo uses)
 <ul><blockquote>🌐Google tips to find/order light beacon from eBay/AliExpress/Wish/Amazon/...  <br>
 1) "Remote control RC Car LED Rotating Beacon Light Flashing"<br>
 2) "RC DIY LED Rotating Beacon Light Flashing for 1:14"
