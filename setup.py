@@ -20,7 +20,7 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
-            "pet_lightbeacon_node=pet_ros2_lightbeacon_pkg.pet_lightbeacon_node:main"
+            "pet_light_beacon_node=pet_ros2_lightbeacon_pkg.pet_light_beacon_node:main"
         ],
     },
 )
